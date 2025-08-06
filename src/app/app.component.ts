@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   ngOnInit() {
     //this.modifiedName();
     //this.pairOrImpair(1);
@@ -37,7 +37,10 @@ export class AppComponent {
     //this.addValuesInArrayObject();
     //this.addValuesInArrayObject();
     //this.findIndexOfWord();
-    this.findDateMoreRecent();
+    //this.findDateMoreRecent();
+    //this.testFunction();
+    this.findIndexCustom(13);
+    //this.findIndexTest();
   }
 
   //1. Modifier un name via findIndex
@@ -51,10 +54,9 @@ export class AppComponent {
   //je veux modifier la key name par une nouvelle valeur
   public modifiedName() {
     // 1- recuperer la valeur du name que je veux modifier
-    let findIndex = this.users.findIndex((value) => value.name === 'Alice');
+    let findIndex = this.users.findIndex((value) => value.name === 'didier');
     let modifiedName = (this.users[findIndex].name = 'Pierre');
-    console.log('FindIndex', modifiedName);
-    console.log('FindIndex', this.users);
+    console.log('FindIndex', findIndex);
   }
 
   //2. Trouver l’index du premier nombre pair
@@ -388,14 +390,64 @@ export class AppComponent {
 
   //30. Trouver la date la plus récente
 
-  dates = [
+  public dates = [
     new Date('2021-01-10'),
     new Date('2023-05-01'),
     new Date('2022-09-15'),
   ];
 
+  person = {
+    name: 'Pierre',
+    walk() {
+      console.log(this);
+    },
+  };
+
   findDateMoreRecent() {
     const maxDate = this.dates.reduce((a, b) => (a > b ? a : b));
-    console.log('maxDate', maxDate);
+    let name = this.person.walk.bind(this.person);
+    this.person.walk();
+    console.log('Name', name);
   }
+  /////////// ES6
+
+  colors = ['green', 'yelow', 'pink'];
+
+  findColor() {
+    this.colors.map((color) => `<li>${color}</li>`);
+  }
+  ////// desctruting object
+
+  address = {
+    rue: '',
+    ville: '',
+    pays: '',
+  };
+  first = [1, 2, 3];
+  second = [4, 5, 6];
+  testFunction() {
+    const { rue: ok, ville, pays } = this.address;
+    let combied = [...this.first, 'a', ...this.second, 'b'];
+    console.log('function', combied);
+  }
+
+  array1 = [5, 12, 8, 44, 778];
+
+  findIndexCustom(number: any) {
+    for (let i: number = 0; i < this.array1.length; i++) {
+      if (number < this.array1[i]) {
+        return console.log(i);
+      }
+    }
+    return console.log(-1);
+  }
+
+  public passingArgs(number: number, tab: number[]) {
+    return number < tab.length;
+  }
+
+  // findIndexTest() {
+  //   let r = this.array1.findIndex((i) => i > 43);
+  //   console.log('R', r);
+  // }
 }
